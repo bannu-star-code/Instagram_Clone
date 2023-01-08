@@ -12,6 +12,7 @@ from django.core.paginator import Paginator
 from authy.models import Profile
 
 # Create your views here.
+@login_required
 def index(request):
     user=request.user
     all_users=User.objects.all()
@@ -42,6 +43,7 @@ def index(request):
     }
     return render(request, 'index.html', context)
 
+@login_required
 def NewPost(request):
     user=request.user
     profile=get_object_or_404(Profile, user=user)
@@ -68,6 +70,7 @@ def NewPost(request):
     context={'form':form}
     return render(request, 'newpost.html', context)
 
+@login_required
 def PostDetail(request, post_id):
     user=request.user
     post=get_object_or_404(Post,id=post_id)
@@ -76,10 +79,14 @@ def PostDetail(request, post_id):
     if request.method=="POST":
         form=NewCommentForm(request.POST)
         if form.is_valid():
-            comment=form.save(commit=False)
-            comment.post=post
-            comment.user=user
-            comment.save()
+            # form.save(post=post, user=user)
+            print(request.POST['body'])
+            c=Comment(user=user, body=request.POST['body'], post=post)
+            c.save()
+        #     comment=form.save(commit=False)
+        #     comment.post=post
+        #     comment.user=user
+        #     comment.save()
             return HttpResponseRedirect(reverse('post-details', args=[post.id]))
     else:
         form=NewCommentForm()
@@ -89,6 +96,7 @@ def PostDetail(request, post_id):
     }
     return render(request, 'postdetail.html', context)
 
+@login_required
 def like(request, post_id):
     user=request.user
     post=Post.objects.get(id=post_id)
@@ -108,6 +116,7 @@ def like(request, post_id):
     # Myself
     return redirect(request.META.get('HTTP_REFERER'))
 
+@login_required
 def favourite(request, post_id):
     user=request.user
     post=Post.objects.get(id=post_id)
@@ -119,6 +128,7 @@ def favourite(request, post_id):
         profile.favourite.add(post)
     return redirect(request.META.get('HTTP_REFERER'))
 
+@login_required
 def Tags(request, tag_slug):
     tag=get_object_or_404(Tag, slug=tag_slug)
     posts=Post.objects.filter(tags=tag).order_by('-posted')

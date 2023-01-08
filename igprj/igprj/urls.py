@@ -17,15 +17,23 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from authy.views import UserProfile, EditProfile, follow
+from django.contrib.auth import views as auth_views
+from authy.views import UserProfile, EditProfile, follow, register
 urlpatterns = [
     path('admin/', admin.site.urls),
     # path('users/', include('authy.urls')),
+    # user AUthentication
+    path('sign-up/', register, name='sign-up'),
+    path('sign-in/', auth_views.LoginView.as_view(template_name='sign-in.html', redirect_authenticated_user=True), name='sign-in'),
+    path('sign-out/', auth_views.LogoutView.as_view(template_name='sign-out.html'), name='sign-out'),
     path('', include('post.urls')),
     path('<username>/',UserProfile,name='profile'),
     path('<username>/saved',UserProfile,name='profilefavourite'),
     path('profile/edit', EditProfile, name="editprofile"),
-    path('<username>/follow/<option>/',follow, name='follow')
+    path('<username>/follow/<option>/',follow, name='follow'),
+
+
+    
 
 ]
 
