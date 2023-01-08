@@ -24,6 +24,10 @@ def index(request):
     all_likes=[]
     for i in al_likes:
         all_likes.append(i.post.id)
+    all_favourite=[]
+    profile=Profile.objects.get(user=user)
+    for i in list(profile.favourite.all()):
+        all_favourite.append(i.id)
     for post in posts:
         group_ids.append(post.post_id)
     post_items=Post.objects.filter(id__in=group_ids).all().order_by('-posted')
@@ -42,7 +46,8 @@ def index(request):
         'follow_status':follow_status,
         'profile':profile,
         'all_users':all_users,
-        'all_likes':all_likes
+        'all_likes':all_likes,
+        'all_favourite':all_favourite
     }
     return render(request, 'index.html', context)
 
@@ -82,7 +87,11 @@ def PostDetail(request, post_id):
     all_likes=[]
     for i in al_likes:
         all_likes.append(i.post.id)
-
+    all_favourite=[]
+    profile=Profile.objects.get(user=user)
+    for i in list(profile.favourite.all()):
+        all_favourite.append(i.id)
+    # print(all_favourite)
     if request.method=="POST":
         form=NewCommentForm(request.POST)
         if form.is_valid():
@@ -99,7 +108,7 @@ def PostDetail(request, post_id):
         form=NewCommentForm()
         
     context={
-        'post':post,'form':form,'comments':comments,'all_likes':all_likes
+        'post':post,'form':form,'comments':comments,'all_likes':all_likes,'all_favourite':all_favourite
     }
     return render(request, 'postdetail.html', context)
 
@@ -144,3 +153,8 @@ def Tags(request, tag_slug):
         'posts':posts, 'tag':tag
     }
     return render(request, 'tag.html', context)
+
+@login_required
+def delete(request, post_id):
+    del_post=Post.objects.get(id=post_id).delete()
+    return redirect('profile',request.user.username)
