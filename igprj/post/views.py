@@ -18,10 +18,12 @@ def index(request):
     all_users=User.objects.all()
     follow_status=Follow.objects.filter(following=user, follower=request.user).exists()
     profile=Profile.objects.all()
-
     posts=Stream.objects.filter(user=user)
     group_ids=[]
-
+    al_likes=Likes.objects.filter(user=user)
+    all_likes=[]
+    for i in al_likes:
+        all_likes.append(i.post.id)
     for post in posts:
         group_ids.append(post.post_id)
     post_items=Post.objects.filter(id__in=group_ids).all().order_by('-posted')
@@ -40,6 +42,7 @@ def index(request):
         'follow_status':follow_status,
         'profile':profile,
         'all_users':all_users,
+        'all_likes':all_likes
     }
     return render(request, 'index.html', context)
 
@@ -75,6 +78,10 @@ def PostDetail(request, post_id):
     user=request.user
     post=get_object_or_404(Post,id=post_id)
     comments=Comment.objects.filter(post=post).order_by('-date')
+    al_likes=Likes.objects.filter(user=user)
+    all_likes=[]
+    for i in al_likes:
+        all_likes.append(i.post.id)
 
     if request.method=="POST":
         form=NewCommentForm(request.POST)
@@ -92,7 +99,7 @@ def PostDetail(request, post_id):
         form=NewCommentForm()
         
     context={
-        'post':post,'form':form,'comments':comments
+        'post':post,'form':form,'comments':comments,'all_likes':all_likes
     }
     return render(request, 'postdetail.html', context)
 
