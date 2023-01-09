@@ -39,7 +39,7 @@ def index(request):
         page_number=request.GET.get('page')
         users_paginator=paginator.get_page(page_number)
 
-        return render(request, 'search.html',{'users':users})
+        return render(request, 'search.html',{'users':users,'query':query})
     
     context={
         'post_items':post_items,
@@ -147,10 +147,29 @@ def favourite(request, post_id):
 @login_required
 def Tags(request, tag_slug):
     tag=get_object_or_404(Tag, slug=tag_slug)
+    # print(tag)
     posts=Post.objects.filter(tags=tag).order_by('-posted')
+    query=request.POST.get('q')
+    result=True
+    if query:
+        if "#" in query:
+            query=query[1:]
+        try:
+            tag=get_object_or_404(Tag, title=query)
+            result=True
+        except:
+             result=False
+        posts=Post.objects.filter(tags=tag).order_by('-posted')
+        paginator=Paginator(posts, 6)
+        page_number=request.GET.get('page')
+        users_paginator=paginator.get_page(page_number)
+        context={
+        'posts':posts, 'tag':tag,'result':result
+        }
+        return render(request, 'tag.html',context)
 
     context={
-        'posts':posts, 'tag':tag
+        'posts':posts, 'tag':tag, 'result':result
     }
     return render(request, 'tag.html', context)
 

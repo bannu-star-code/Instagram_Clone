@@ -300,6 +300,8 @@ img {
 
     .profile-image {
         grid-row: 1 / -1;
+        width: 200px;
+        height: 200px;
     }
 
     .gallery {
@@ -326,6 +328,10 @@ img {
 
         .profile-image {
             grid-row: 1 / 2;
+            /* own */
+            width: 100px;
+            height: 100px;
+            /* own */
         }
 
         .profile-user-settings {
