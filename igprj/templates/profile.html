@@ -98,8 +98,8 @@
 
                     <ul>
                         <li><span class="profile-stat-count">{{posts_count}}</span> Posts</li>
-                        <li><span class="profile-stat-count">{{followers_count}}</span> Followers</li>
-                        <li><span class="profile-stat-count">{{following_count}}</span> Following</li>
+                        <li><span class="profile-stat-count">{{followers_count}}</span> <a href="{% url 'follower_list' user.username %}" style="text-decoration: none;color: black;">Followers</a></li>
+                        <li><span class="profile-stat-count">{{following_count}}</span> <a href="{% url 'following_list' user.username %}" style="text-decoration: none;color: black;">Following</a></li>
                     </ul>
                     <br>
                     

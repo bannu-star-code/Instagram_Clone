@@ -18,7 +18,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
-from authy.views import UserProfile, EditProfile, follow, register
+from authy.views import UserProfile, EditProfile, follow, register, follower_list, following_list
 urlpatterns = [
     path('admin/', admin.site.urls),
     # path('users/', include('authy.urls')),
@@ -31,6 +31,8 @@ urlpatterns = [
     path('<username>/saved',UserProfile,name='profilefavourite'),
     path('profile/edit', EditProfile, name="editprofile"),
     path('<username>/follow/<option>/',follow, name='follow'),
+    path('<username>/followers', follower_list, name='follower_list'),
+    path('<username>/following', following_list, name='following_list')
 
 
     

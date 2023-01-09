@@ -28,7 +28,11 @@ def UserProfile(request, username):
         posts=Post.objects.filter(user=user).order_by('-posted')
     else:
         posts=profile.favourite.all()
-
+    
+    follwers_user=Follow.objects.filter(following=user)
+    print(follwers_user)
+    for i in follwers_user:
+        print(i.follower.username)
     
     # Profile Stats
     posts_count = Post.objects.filter(user=user).count()
@@ -44,6 +48,7 @@ def UserProfile(request, username):
     posts_paginator = paginator.get_page(page_number)
 
     context = {
+        'user':user,
         'posts': posts,
         'profile':profile,
         'posts_count':posts_count,
@@ -54,6 +59,20 @@ def UserProfile(request, username):
         # 'count_comment':count_comment,
     }
     return render(request, 'profile.html', context)
+
+
+def follower_list(request, username):
+    user=get_object_or_404(User, username=username)
+    followers_user=Follow.objects.filter(following=user)
+    context={"followers_User":followers_user}
+    return render(request, 'followers_list.html', context)
+
+def following_list(request, username):
+    user=get_object_or_404(User, username=username)
+    following_user=Follow.objects.filter(follower=user)
+    context={"following_User":following_user}
+    return render(request, 'following_list.html', context)
+
 
 def EditProfile(request):
     user=request.user.id
