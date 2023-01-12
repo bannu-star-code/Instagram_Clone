@@ -39,6 +39,7 @@ def inbox(request):
 def Directs(request, username):
     user=request.user
     messages=Message.get_message(user)
+    msg_user=User.objects.get(username=username)
     active_direct=username
     directs=Message.objects.filter(user=user, reciepient__username=username)
     directs.update(is_read=True)
@@ -50,8 +51,9 @@ def Directs(request, username):
         'directs': directs,
         'messages': messages,
         'active_direct': active_direct,
+        'msg_user':msg_user,
     }
-    return render(request, 'directs/direct.html', context)
+    return render(request, 'directs/ind_msg.html', context)
 
 def SendDirect(request):
     from_user=request.user
@@ -61,7 +63,7 @@ def SendDirect(request):
     if request.method=="POST":
         to_user=User.objects.get(username=to_user_username)
         Message.sender_message(from_user, to_user, body)
-        return redirect('message')
+        return redirect('direct',to_user.username)
 
 
 def NewConversation(request, username):
