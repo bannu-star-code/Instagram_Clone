@@ -25,7 +25,7 @@
     {% for i in followers_User %}
     <div class="side-menu__user-profile" style="text-align: start; border: solid rgba(192, 192, 192, 0.514) 1px; padding: 10px; border-radius: 25px;">
         <a href="{% url 'profile' i.follower.username %}" class="side-menu__user-avatar">
-            {% if user.profile.image.url %}
+            {% if i.follower.profile.image.url %}
             <img src="{{ i.follower.profile.image.url }}" alt="User Picture">
             {% else %}
             <img src="{% static 'assets1/default.jpg' %}" alt="User Picture">
@@ -33,7 +33,7 @@
             {% endif %}
         </a>
         <div class="side-menu__user-idnfo">
-            {% if user.profile.first_name %}
+            {% if i.follower.profile.first_name %}
             <a href="{% url 'profile' i.follower.username %}" style="font-size: 15px; color: black; text-align: center;">{{i.follower.profile.first_name|title }} {{i.follower.profile.last_name|title }}</a>
             {% else%}
             <a href="{% url 'profile' i.follower.username %}">Instagram User</a>

@@ -10,11 +10,14 @@ from django.contrib.auth.models import User
 from post.forms import NewPostform
 from django.core.paginator import Paginator
 from authy.models import Profile
+from directs.models import Message
 
 # Create your views here.
 @login_required
 def index(request):
     user=request.user
+    m=Message.get_message(user)
+    print(m)
     all_users=User.objects.all()
     follow_status=Follow.objects.filter(following=user, follower=request.user).exists()
     profile=Profile.objects.all()
@@ -83,6 +86,10 @@ def PostDetail(request, post_id):
     user=request.user
     post=get_object_or_404(Post,id=post_id)
     comments=Comment.objects.filter(post=post).order_by('-date')
+    # user_like_list=Likes.objects.filter(post=post)
+    # print(user_like_list)
+    # for i in user_like_list:
+    #     print(i.user.username)
     al_likes=Likes.objects.filter(user=user)
     all_likes=[]
     for i in al_likes:
@@ -91,7 +98,6 @@ def PostDetail(request, post_id):
     profile=Profile.objects.get(user=user)
     for i in list(profile.favourite.all()):
         all_favourite.append(i.id)
-    # print(all_favourite)
     if request.method=="POST":
         form=NewCommentForm(request.POST)
         if form.is_valid():

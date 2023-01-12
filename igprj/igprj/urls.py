@@ -27,16 +27,14 @@ urlpatterns = [
     path('sign-in/', auth_views.LoginView.as_view(template_name='sign-in.html', redirect_authenticated_user=True), name='sign-in'),
     path('sign-out/', auth_views.LogoutView.as_view(template_name='sign-out.html'), name='sign-out'),
     path('', include('post.urls')),
+    path('message/', include('directs.urls')),
     path('<username>/',UserProfile,name='profile'),
     path('<username>/saved',UserProfile,name='profilefavourite'),
     path('profile/edit', EditProfile, name="editprofile"),
     path('<username>/follow/<option>/',follow, name='follow'),
     path('<username>/followers', follower_list, name='follower_list'),
-    path('<username>/following', following_list, name='following_list')
-
-
+    path('<username>/following', following_list, name='following_list'),
     
-
 ]
 
 if settings.DEBUG:
