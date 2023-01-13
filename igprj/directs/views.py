@@ -75,4 +75,4 @@ def NewConversation(request, username):
         return redirect('search-users')
     if from_user != to_user:
         Message.sender_message(from_user, to_user, body)
-    return redirect('message')
+    return redirect('direct', username)
