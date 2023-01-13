@@ -118,24 +118,24 @@ def PostDetail(request, post_id):
     return render(request, 'postdetail.html', context)
 
 @login_required
-# def like(request, post_id):
-#     user=request.user
-#     post=Post.objects.get(id=post_id)
-#     current_likes=post.likes
-#     liked=Likes.objects.filter(user=user, post=post).count()
+def like(request, post_id):
+    user=request.user
+    post=Post.objects.get(id=post_id)
+    current_likes=post.likes
+    liked=Likes.objects.filter(user=user, post=post).count()
 
-#     if not liked:
-#         Likes.objects.create(user=user, post=post)
-#         current_likes=current_likes + 1
-#     else:
-#         Likes.objects.filter(user=user, post=post).delete()
-#         current_likes=current_likes-1
+    if not liked:
+        Likes.objects.create(user=user, post=post)
+        current_likes=current_likes + 1
+    else:
+        Likes.objects.filter(user=user, post=post).delete()
+        current_likes=current_likes-1
     
-#     post.likes=current_likes
-#     post.save()
-#     return redirect(request.META.get('HTTP_REFERER'))
+    post.likes=current_likes
+    post.save()
+    return redirect(request.META.get('HTTP_REFERER'))
 
-def like(request):
+def like_ajax(request):
     user=request.user
     print(request.GET)
     post_id=request.GET.get('postid')
