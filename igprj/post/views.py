@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 
 from post.models import Post, Tag, Follow, Stream, Likes
 from comment.models import Comment
@@ -17,7 +17,6 @@ from directs.models import Message
 def index(request):
     user=request.user
     m=Message.get_message(user)
-    print(m)
     all_users=User.objects.all()
     follow_status=Follow.objects.filter(following=user, follower=request.user).exists()
     profile=Profile.objects.all()
@@ -119,8 +118,27 @@ def PostDetail(request, post_id):
     return render(request, 'postdetail.html', context)
 
 @login_required
-def like(request, post_id):
+# def like(request, post_id):
+#     user=request.user
+#     post=Post.objects.get(id=post_id)
+#     current_likes=post.likes
+#     liked=Likes.objects.filter(user=user, post=post).count()
+
+#     if not liked:
+#         Likes.objects.create(user=user, post=post)
+#         current_likes=current_likes + 1
+#     else:
+#         Likes.objects.filter(user=user, post=post).delete()
+#         current_likes=current_likes-1
+    
+#     post.likes=current_likes
+#     post.save()
+#     return redirect(request.META.get('HTTP_REFERER'))
+
+def like(request):
     user=request.user
+    print(request.GET)
+    post_id=request.GET.get('postid')
     post=Post.objects.get(id=post_id)
     current_likes=post.likes
     liked=Likes.objects.filter(user=user, post=post).count()
@@ -128,15 +146,16 @@ def like(request, post_id):
     if not liked:
         Likes.objects.create(user=user, post=post)
         current_likes=current_likes + 1
+        l=True
+
     else:
         Likes.objects.filter(user=user, post=post).delete()
         current_likes=current_likes-1
+        l=False
     
     post.likes=current_likes
     post.save()
-    # return HttpResponseRedirect(reverse('post-details', args=[post_id]))
-    # Myself
-    return redirect(request.META.get('HTTP_REFERER'))
+    return JsonResponse({'status':'Data Saved',"current_likes":current_likes,'l':l})
 
 @login_required
 def favourite(request, post_id):
