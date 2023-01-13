@@ -1,6 +1,6 @@
 <script>
     console.log("Ajax")
-    $('.post__button').click(function(){
+    $('.like_btn').click(function(){
       let other=""
       let oth=""
       let post_id=$(this).attr('value');
@@ -34,6 +34,50 @@
                 // console.log("Unliked")
                 oth+='<span id="liked_count">'+data.current_likes +" "+'<a class="post__name--underline" href="#">likes</a> <a href="#"></a></span>'
                 $(like_btn).html(oth)
+              }
+            }
+        })
+      }
+      else{
+        console.log("didnt get the post id")
+      }
+    })
+
+
+
+
+    $('.fav_btn').click(function(){
+      let other=""
+      let oth=""
+      let post_id=$(this).attr('value');
+      console.log(post_id)
+      let btn='#favourite'+post_id
+      let btn1=$(btn)
+      console.log(btn1)
+
+      if (post_id){
+        mydata={postid:post_id}
+
+        $.ajax({
+            url: "{% url 'favourite_ajax' %}",
+            method:"GET",
+            data:mydata,
+
+            success:function(data){
+              console.log(data.status)
+            //   console.log(data.current_likes)
+
+              if (data.l){
+                // console.log("liked")
+                other+='<i>Saved</i>'
+                btn1.html(other)
+              
+              }
+              else{
+                other+='<i>Unsaved</i>'
+                btn1.html(other)
+                // console.log("Unliked")
+              
               }
             }
         })

@@ -165,9 +165,26 @@ def favourite(request, post_id):
 
     if profile.favourite.filter(id=post_id).exists():
         profile.favourite.remove(post)
+        
     else:
         profile.favourite.add(post)
+        
     return redirect(request.META.get('HTTP_REFERER'))
+
+@login_required
+def favourite_ajax(request):
+    user=request.user
+    post_id=request.GET.get('postid')
+    post=Post.objects.get(id=post_id)
+    profile=Profile.objects.get(user=user)
+
+    if profile.favourite.filter(id=post_id).exists():
+        profile.favourite.remove(post)
+        l=False
+    else:
+        profile.favourite.add(post)
+        l=True
+    return JsonResponse({'status':'Data Saved','l':l})
 
 @login_required
 def Tags(request, tag_slug):
