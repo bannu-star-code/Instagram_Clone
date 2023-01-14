@@ -135,9 +135,7 @@ img {
 
 .gallery {
     display: flex;
-    /* display: grid; */
-    /* flex-wrap: nowrap; */
-    /* grid-template-columns: auto auto auto; */
+    flex-wrap: wrap;
     margin: -1rem -1rem;
     padding-bottom: 3rem;
 }
@@ -302,15 +300,13 @@ img {
 
     .profile-image {
         grid-row: 1 / -1;
-        width: 200px;
-        height: 200px;
     }
 
-    /* .gallery {
+    .gallery {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
         grid-gap: 2rem;
-    } */
+    }
 
     .profile-image,
     .profile-user-settings,
@@ -330,10 +326,6 @@ img {
 
         .profile-image {
             grid-row: 1 / 2;
-            /* own */
-            width: 150px;
-            height: 150px;
-            /* own */
         }
 
         .profile-user-settings {
