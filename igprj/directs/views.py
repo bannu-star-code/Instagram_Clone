@@ -16,7 +16,13 @@ def inbox(request):
     active_direct=None
     directs=None
     profile=get_object_or_404(Profile, user=user)
-
+    query=request.GET.get('q')
+    users=False
+    if query:
+        users=Profile.objects.filter(first_name__icontains=query)
+        paginator=Paginator(users, 6)
+        page_number=request.GET.get('page')
+        users_paginator=paginator.get_page(page_number)
     if messages:
         message=messages[0]
         active_direct=message['user'].username
@@ -30,7 +36,8 @@ def inbox(request):
         'directs':directs,
         'messages':messages,
         'active_direct':active_direct,
-        'profile':profile
+        'profile':profile,
+        'users':users,
     }
     return render(request, 'directs/direct.html', context)
 
