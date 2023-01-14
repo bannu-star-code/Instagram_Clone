@@ -19,26 +19,27 @@
 <!-- <div style="font-size: 20px; margin-top: 10px;margin-bottom:20px; text-align:center; font-weight: bold;"> -->
     <a href="{% url 'profile' post.user %}" style="text-decoration: none;color: black;">
     <div class="d-flex flex-row user-info"><img class="rounded-circle" src="{{profile.image.url}}" style="width:10%">
-        {{post.user}}
+        @{{post.user}} Comment Below
         <br>
         {{post.caption}}
+
     </div>
 </a>
     <div class="container mt-1">
         <div class="d-flex justify-content-right row">
             <div class="col-md-8 col-lg-8">
-                <div class="d-flex flex-column comment-section">
+                <div class="d-flex flex-column comment-section" style="width:100%;">
                 
                     <div style="overflow-y: auto;height: 500px;">
                     {% for comment in comments %}
                         <div class="bg-white p-2">
                             <div class="d-flex flex-row user-info"><img class="rounded-circle" src="{{comment.user.profile.image.url}}" style="width:10%">
                                 <a href="{% url 'profile' comment.user %}" style="text-decoration: none;">
-                                <div class="d-flex flex-column justify-content-start ml-2"><span class="d-block font-weight-bold name">{{comment.user.profile.first_name}} {{comment.user.profile.last_name}}</span><span class="date text-black-50"> {{comment.date}}</span></div></a>
+                                <div class="d-flex flex-column justify-content-start ml-2"><span class="d-block font-weight-bold name">{{comment.user.profile.first_name}} {{comment.user.profile.last_name}} <span style="text-decoration: none;color: black;">{{ comment.body }}</span></span><span class="date text-black-50"> {{comment.date}}</span></div></a>
                             </div>
-                            <div class="mt-2">
+                            <!-- <div class="mt-2">
                                 <p class="comment-text">{{ comment.body }}</p>
-                            </div>
+                            </div> -->
                         </div>
                     {% endfor %}
                     </div>
