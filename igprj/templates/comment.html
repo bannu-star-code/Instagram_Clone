@@ -17,20 +17,29 @@
 
 <body><br>
 <!-- <div style="font-size: 20px; margin-top: 10px;margin-bottom:20px; text-align:center; font-weight: bold;"> -->
-    <a href="{% url 'profile' post.user %}" style="text-decoration: none;color: black;">
-    <div class="d-flex flex-row user-info"><img class="rounded-circle" src="{{profile.image.url}}" style="width:10%">
-        @{{post.user}} Comment Below
-        <br>
-        {{post.caption}}
-
+    
+    <div class="container mt-1" style="margin-left:2%;">
+        <div class="d-flex justify-content-right row">
+        <div class="col-md-8 col-lg-8">
+        <div class="d-flex flex-column comment-section" style="width:100%;">
+        <a href="{% url 'profile' post.user %}" style="text-decoration: none;color: black;">
+           <div class="d-flex flex-row user-info"><img class="rounded-circle" src="{{profile.image.url}}" style="width:10%">
+          @{{post.user}} Comment Below
+           <br>
+           {{post.caption}}
+        </div>
+       </a>
     </div>
-</a>
+    </div>
+    </div>
+    </div>
+
     <div class="container mt-1">
         <div class="d-flex justify-content-right row">
             <div class="col-md-8 col-lg-8">
                 <div class="d-flex flex-column comment-section" style="width:100%;">
                 
-                    <div style="overflow-y: auto;height: 500px;">
+                    <div style="overflow-y: auto;border: 2px solid red;height:500px;">
                     {% for comment in comments %}
                         <div class="bg-white p-2">
                             <div class="d-flex flex-row user-info"><img class="rounded-circle" src="{{comment.user.profile.image.url}}" style="width:10%">
