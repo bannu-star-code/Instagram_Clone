@@ -118,7 +118,7 @@ def follow(request, username, option):
 
 def register(request):
     if request.method=="POST":
-        form=UserCreationForm(request.POST)
+        form=UserRegisterForm(request.POST)
         if form.is_valid():
             new_user=form.save()
             username=form.cleaned_data.get('username')
@@ -131,6 +131,6 @@ def register(request):
     elif request.user.is_authenticated:
         return redirect('index')
     else:
-        form=UserCreationForm()
+        form=UserRegisterForm()
     context={'form':form}
     return render(request, 'sign-up.html', context)

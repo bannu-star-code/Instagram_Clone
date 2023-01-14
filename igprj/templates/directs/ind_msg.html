@@ -62,11 +62,11 @@
 	/* .chat-messages  {
     overflow-y: auto;
 	height: 100%;
-  } */
-  /* .card{
+  }
+  .card{
 	height: 580px;
-  } */
-  /* .position-relative{
+  }
+  .position-relative{
     height: 100%;
   } */
 }
@@ -108,13 +108,14 @@
 									{% for direct in directs %}
 										{% if direct.sender == request.user %}
 											{% if direct.body%}
-											<div class="chat-message-right pb-2">
+											<div class="chat-message-right pb-2" style="border-radius:20px;">
 												<div>
 													<a href=""><img src="{{ direct.sender.profile.image.url }}" class="rounded-circle mr-1" alt="img" width="40" height="40"></a>
 													<div class="text-muted small text-nowrap mt-2" style="font-size:10px; color: rgba(180, 180, 180, 0);"><p style="font-size:10px; color: black;">{{direct.date|date:"d M, Y"}}</p></div>
 
 												</div>
-												<div class="flex-shrink-1 bg-light rounded py-2 px-3 ml-3">
+												<div class="flex-shrink-1 bg-light rounded py-2 px-3 ml-3"
+												 >
 													<!-- <div class="font-weight-bold mb-1">Sharon Lessman</div> -->
 													{{direct.body}}
 												</div>

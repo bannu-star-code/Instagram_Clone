@@ -16,10 +16,10 @@ class EditProfileForm(forms.ModelForm):
         fields=['image','first_name','last_name','bio','url','location']
 
 class UserRegisterForm(UserCreationForm):
-    username=forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Username','class':'prompt srch_explore'}), max_length=50, required=True)
-    email=forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Email','class':'prompt srch_explore'}))
-    password1 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Enter Password', 'class': 'prompt srch_explore'}))
-    password2 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Confirm Password', 'class': 'prompt srch_explore'}))
+    username=forms.CharField(widget=forms.TextInput(attrs={'class':'input','placeholder':'Username'}), max_length=50, required=True)
+    email=forms.CharField(widget=forms.TextInput(attrs={'class':'input','placeholder':'Email'}))
+    password1 = forms.CharField(widget=forms.PasswordInput(attrs={'class':'input','placeholder': 'Enter Password'}))
+    password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class':'input','placeholder': 'Confirm Password'}))
     # email = forms.EmailField()
 
     class Meta:
