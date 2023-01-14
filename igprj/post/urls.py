@@ -5,6 +5,7 @@ urlpatterns=[
     path('',views.index,name='index'),
     path('newpost/',views.NewPost, name='newpost'),
     path('<uuid:post_id>',views.PostDetail,name='post-details'),
+    path('<uuid:post_id>/comment',views.comment,name='comment'),
     path('tag/<slug:tag_slug>',views.Tags, name='tags'),
     path('<uuid:post_id>/like',views.like, name='like'),
     path('like',views.like_ajax, name='like_ajax'),

@@ -117,6 +117,31 @@ def PostDetail(request, post_id):
     }
     return render(request, 'postdetail.html', context)
 
+
+
+@login_required
+def comment(request,post_id):
+    user=request.user
+    post=get_object_or_404(Post,id=post_id)
+    profile=Profile.objects.get(user=post.user)
+    comments=Comment.objects.filter(post=post).order_by('-date')
+    if request.method=="POST":
+        form=NewCommentForm(request.POST)
+        if form.is_valid():
+            print(request.POST['body'])
+            c=Comment(user=user, body=request.POST['body'], post=post)
+            c.save()
+            # return HttpResponseRedirect(reverse('comment', args=[post.id]))
+            return redirect(request.META.get('HTTP_REFERER'))
+    else:
+        form=NewCommentForm()
+        
+    context={
+        'post':post,'form':form,'comments':comments,'profile':profile
+    }
+    return render(request, 'comment.html', context)
+
+
 @login_required
 def like(request, post_id):
     user=request.user

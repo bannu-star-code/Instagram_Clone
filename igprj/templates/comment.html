@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+<br><br>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="https://kit.fontawesome.com/fc1e235b2e.js"></script>
+  <link rel="stylesheet" href="{% static 'assets2/style.css' %}">
+  <title>Instagram Login Form</title>
+</head>
+
+<body><br>
+<!-- <div style="font-size: 20px; margin-top: 10px;margin-bottom:20px; text-align:center; font-weight: bold;"> -->
+    <a href="{% url 'profile' post.user %}" style="text-decoration: none;color: black;">
+    <div class="d-flex flex-row user-info"><img class="rounded-circle" src="{{profile.image.url}}" style="width:10%">
+        {{post.user}}
+        <br>
+        {{post.caption}}
+    </div>
+</a>
+    <div class="container mt-1">
+        <div class="d-flex justify-content-right row">
+            <div class="col-md-8 col-lg-8">
+                <div class="d-flex flex-column comment-section">
+                
+                    <div style="overflow-y: auto;height: 530px;">
+                    {% for comment in comments %}
+                        <div class="bg-white p-2">
+                            <div class="d-flex flex-row user-info"><img class="rounded-circle" src="{{comment.user.profile.image.url}}" style="width:10%">
+                                <a href="{% url 'profile' comment.user %}" style="text-decoration: none;">
+                                <div class="d-flex flex-column justify-content-start ml-2"><span class="d-block font-weight-bold name">{{comment.user.profile.first_name}} {{comment.user.profile.last_name}}</span><span class="date text-black-50"> {{comment.date}}</span></div></a>
+                            </div>
+                            <div class="mt-2">
+                                <p class="comment-text">{{ comment.body }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    </div>
+
+                    
+                    <form method="POST" style="display: absolute;margin-bottom: 20px;">
+                        {% csrf_token %}
+                        <div class="bg-light p-2">
+                            <!-- {{form|crispy}} -->
+                            <div class="d-flex flex-row align-items-start"><img class="rounded-circle" src="{{request.user.profile.image.url}}" style="width:10%;">{{form.body}}<button class="btn btn-primary btn-sm shadow-none" type="submit">Post comment</button></div>
+                            <!-- <div class="mt-2 text-right"><button class="btn btn-primary btn-sm shadow-none" type="submit">Post comment</button></div> -->
+                        </div>
+                    </form>
+                    
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    
+<!-- </div> -->
+
+</body>
+
+</html>
+
+
+
+{% endblock content %}

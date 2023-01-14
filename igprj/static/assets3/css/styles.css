@@ -135,7 +135,9 @@ img {
 
 .gallery {
     display: flex;
-    flex-wrap: wrap;
+    /* display: grid; */
+    /* flex-wrap: nowrap; */
+    /* grid-template-columns: auto auto auto; */
     margin: -1rem -1rem;
     padding-bottom: 3rem;
 }
@@ -304,11 +306,11 @@ img {
         height: 200px;
     }
 
-    .gallery {
+    /* .gallery {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
         grid-gap: 2rem;
-    }
+    } */
 
     .profile-image,
     .profile-user-settings,
