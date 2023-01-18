@@ -36,12 +36,13 @@ def index(request):
 
     query=request.GET.get('q')
     if query:
+        all_post:Post.objects.all()
         users=User.objects.filter(username__icontains=query)
         paginator=Paginator(users, 6)
         page_number=request.GET.get('page')
         users_paginator=paginator.get_page(page_number)
 
-        return render(request, 'search.html',{'users':users,'query':query})
+        return render(request, 'search.html',{'users':users,'query':query,'all_post':all_post})
     
     context={
         'post_items':post_items,
@@ -53,6 +54,19 @@ def index(request):
     }
     return render(request, 'index.html', context)
 
+@login_required
+def Search(request):
+    query=request.GET.get('q')
+    all_post=Post.objects.all()
+    try:
+      users=User.objects.filter(username__icontains=query)
+    except:
+        users="No Users Found"
+    paginator=Paginator(users, 6)
+    page_number=request.GET.get('page')
+    users_paginator=paginator.get_page(page_number)
+
+    return render(request, 'search.html',{'users':users,'query':query,'all_post':all_post})
 @login_required
 def NewPost(request):
     user=request.user

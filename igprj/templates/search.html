@@ -5,7 +5,6 @@
 <br><br>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,8 +13,25 @@
   <link rel="stylesheet" href="{% static 'assets2/style.css' %}">
   <title>Instagram Login Form</title>
 </head>
-
+<style>
+  .grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  /* background-color: #2196F3; */
+  /* padding: 10px; */
+}
+.grid-item {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 2px solid white;
+  /* padding: 20px; */
+  /* font-size: 30px; */
+  text-align: center;
+}
+</style> 
 <body>
+  
+  
+  
 
   <div id="wrapper">
     <div class="container">
@@ -23,18 +39,19 @@
       <div class="form-data">
         
         <form action="" method="GET">
-            <div class="headedr__search">
-                <input type="text" placeholder="Search" name="q" value="{{ request.GET.q }}">
-                <button class="btn btn-primary" type="submit">Search</button>
+            <div class="headedr__search" style="width: 100%;">
+                <input type="text" style="border-radius:10px ;" placeholder="  Search...." name="q" value="{{ request.GET.q }}">
+                <!-- <button class="btn btn-primary" type="submit">Search</button> -->
                 
             </div>
         </form>
 
         <form action="" method="POST" enctype="multipart/form-data">
-          <div class="logo">
-            <h3 style="padding-top: 5px; font-size: 20px;">Search Results</h3>
-          </div>
-
+          
+        {% if query %}
+        <div class="logo">
+          <h3 style="padding-top: 5px; font-size: 20px;">Search Results</h3>
+        </div>
         {% for user in users %}
             <div class="side-menu__user-profile" style="text-align: start; border: solid rgba(192, 192, 192, 0.514) 1px; padding: 10px; border-radius: 25px;">
                 <a href="{% url 'profile' user.username %}" class="side-menu__user-avatar">
@@ -60,9 +77,17 @@
                 </div>
             </div>
             <!-- <hr> -->
-        {% endfor %}
-        
+        {% endfor %} 
+        {% else %}
+        <div class="grid-container">
+          {% for post in all_post %}
+          <div class="grid-item"><a href="{% url 'post-details' post.id%}"><img src="{{ post.picture.url }}" alt="User Picture"></a></div>
+          {% endfor%}
           
+        </div>
+        
+        {% endif%}
+   
         </form>
         
       </div>
