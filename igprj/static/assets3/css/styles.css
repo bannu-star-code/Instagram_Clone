@@ -137,6 +137,7 @@ img {
     /* display: flex; */
     display: grid;
     /* flex-wrap: wrap; */
+    grid-template-columns: auto auto auto;
     margin: -1rem -1rem;
     padding-bottom: 3rem;
 }
@@ -306,7 +307,8 @@ img {
     .gallery {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
-        grid-gap: 2rem;
+        /* grid-template-columns: auto auto auto; */
+        /* grid-gap: 2rem; */
     }
 
     .profile-image,
